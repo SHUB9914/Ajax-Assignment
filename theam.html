@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>Bootstrap Theme Company Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <style>
+  .jumbotron {
+      background-color: #f4511e;
+      color: #fff;
+      <!--padding: 50px ;-->
+  }
+  
+  
+ 
+  
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+<div class="jumbotron text-center">
+  <h1>My-APP</h1>
+  
+  <form class="form-inline">
+    <input type="text" id="username" class="form-control" size="50" placeholder="User Name" required>
+    <button id="get-data" type="button" class="btn btn-danger">Find User</button>
+  </form>
+</div>
+
+<!-- information part of user -->
+
+<div class="row">
+ <div class="col-md-4">
+   <img class="img-responsive" id="user-image" src="" >
+  </div>
+
+  <div class="col-md-8 col-sm-6">
+  <div class ="container">
+    <h2><p class="" id="user-id"></p></h2></br>
+        <h4><p class="" id="user-name"></p></h4></br>
+		<h4><p  id="Company"></p></h4></br>
+		<h4><p  id="email"></p></h4></br>
+		<h4><p  id="created-at"></p></h4></br>
+		<h4><p class="" id="location"></p></h4></br>
+		<h4><p class="" id="URL"></p></h4></br></div>
+   </div>
+ </div>
+
+<script>
+      $(document).ajaxStart(function(){
+        $("#user-image").attr("src","progress.gif");
+      }).ajaxStop(function(){
+        console.log("Ajax Stopped.")
+      }).ajaxSuccess(function(){
+        console.log("Ajax Success")
+      }).ajaxComplete(function(){
+        console.log("Ajax Completed")
+      })
+
+      $("#get-data").on("click",function(){
+        var username = $("#username").val();
+        console.log(username);
+        $.ajax({
+          url:"https://api.github.com/users/"+username,
+          success: function(data){
+            console.log(JSON.stringify(data));
+            $("#user-image").attr("src",data.avatar_url);
+			 $("#user-id").text("User id is : "+data.id);
+			$("#user-name").text("User name is : "+data.name);
+           
+			$("#Company").text("User company is : "+data.company);
+			$("#email").text("User email is  : "+data.email);
+			$("#created-at").text("User created at : "+data.created_at);
+			$("#location").text("User location is  : "+data.location);
+			$("#URL").text("User url is  : "+data.url);
+          },
+          error: function(){
+            $("#user-image").attr("src","no-user.png");
+            $("#user-name").text("User not found");
+          }
+        })
+      })
+</script>    
+
+</div>
+</body>
+</html>
+
+
+
